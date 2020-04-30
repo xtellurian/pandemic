@@ -1,0 +1,3 @@
+amphoradata
+numpy
+pandas
