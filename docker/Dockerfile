@@ -8,4 +8,7 @@ COPY . .
 # install the local pandemic from this repository
 RUN pip install -e /pandemic
 
-ENTRYPOINT python -c "import pandemic; pandemic.run(plot=False)"
+ENV HEADLESS true
+ENV PLT_OUTPUT /output
+
+CMD python -c "import pandemic; pandemic.run()"

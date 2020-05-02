@@ -1,6 +1,23 @@
 from pandemic.conventions import STATE_DESCRIPTIONS
 from collections import Counter
+import matplotlib.pyplot
 from pandemic.example_parameters import TOY_TOWN
+from pandemic.configuration import load_configuration
+
+config = load_configuration()
+
+def render(plt: matplotlib.pyplot, day= None):
+    if not config.headless:
+        plt.show(block=False)
+        plt.pause(0.01)
+
+    if config.save_plt:
+        if day is None:
+            plt.savefig(f'{config.plt_output}/img_{render.counter}.png')
+            render.counter = render.counter + 1
+        else:
+            plt.savefig(f'{config.plt_output}/img_day_{day}.png')
+render.counter = 0
 
 
 def plot_callback( positions, status, params, day, day_fraction, home, work, plt, xlabel, step_no, plot_hourly ):
@@ -12,8 +29,8 @@ def plot_callback( positions, status, params, day, day_fraction, home, work, plt
         plt.axis([-b, b, -b, b])
         if xlabel:
             plt.xlabel(xlabel)
-        plt.show(block=False)
-        plt.pause(0.01)
+
+        render(plt, day)
 
 
 def plot_points(plt, positions, status, title=None, sizes=None):

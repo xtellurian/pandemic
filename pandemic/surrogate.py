@@ -8,7 +8,7 @@ from pandemic.example_parameters import BASELINES
 from pandemic.conventions import params_to_vector, vector_to_params, CATEGORIES, STATE_DESCRIPTIONS
 from pandemic.zcurves import to_zcurve
 from pandemic.simulation import simulate
-from pandemic.plotting import plot_points
+from pandemic.plotting import plot_points, render
 import numpy as np
 from pprint import pprint
 import matplotlib.pyplot as plt
@@ -165,9 +165,7 @@ class Surrogate():
         self.plot_metrics(plt=self.axs[0][1], logarithmic=False, differences=True)
         self.axs[0][1].figure
 
-
-        plt.show(block=False)
-        plt.pause(0.01)
+        render(plt, self.time_history[-1]) # the last item in time_history is the day
 
     def plot_metrics(self, plt, logarithmic, differences=False):
         metrics = list(zip(*self.metric_history))[1:]
