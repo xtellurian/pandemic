@@ -3,6 +3,7 @@
 import requests, math, copy, json, random
 from collections import Counter
 from pandemic.conventions import STATES
+from pandemic.configuration import load_configuration
 from pandemic.zcurves import to_zcurve, from_zcurve
 from pandemic.example_parameters import BASELINES
 from pandemic.conventions import params_to_vector, vector_to_params, CATEGORIES, STATE_DESCRIPTIONS
@@ -12,6 +13,8 @@ from pandemic.plotting import plot_points, render
 import numpy as np
 from pprint import pprint
 import matplotlib.pyplot as plt
+
+config = load_configuration()
 
 #-------------------------
 #   Free parameters
@@ -185,8 +188,10 @@ class Surrogate():
             plt.legend(labels)
             plt.set_xlabel('Days since first '+str(self.params['geometry']['i'])+' infections.')
 
-def surrogate(baseline='city',plot=True,quietude=5):
-    print('Starting pandemic simulation',flush=True)
+def surrogate(baseline=None,plot=True,quietude=5):
+    if not baseline:
+        baseline = config.baseline
+    print(f'Starting pandemic simulation for {baseline}',flush=True)
     if plot:
         try:
             import matplotlib.pyplot as plt

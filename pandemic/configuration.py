@@ -1,7 +1,16 @@
 import os
+from pandemic.example_parameters import BASELINES
 
 class Configuration():
 
+    @property
+    def baseline(self):
+        baseline = os.environ.get('BASELINE')
+        if baseline in BASELINES:
+            return baseline
+        else:
+            return 'city' # default baseline
+        
     @property
     def plt_output(self):
         return os.environ.get('PLT_OUTPUT')
